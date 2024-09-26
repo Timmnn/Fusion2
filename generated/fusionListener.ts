@@ -3,17 +3,12 @@
 
 import { ParseTreeListener } from "antlr4ts/tree/ParseTreeListener";
 
-import { PrintExprContext } from "./fusionParser";
-import { AssignContext } from "./fusionParser";
-import { BlankContext } from "./fusionParser";
-import { MulDivContext } from "./fusionParser";
+import { MultDivContext } from "./fusionParser";
 import { AddSubContext } from "./fusionParser";
 import { IntContext } from "./fusionParser";
-import { IdContext } from "./fusionParser";
-import { ParensContext } from "./fusionParser";
-import { ProgContext } from "./fusionParser";
-import { StatContext } from "./fusionParser";
-import { ExprContext } from "./fusionParser";
+import { ProgramContext } from "./fusionParser";
+import { StatementContext } from "./fusionParser";
+import { ExpressionContext } from "./fusionParser";
 
 
 /**
@@ -22,140 +17,75 @@ import { ExprContext } from "./fusionParser";
  */
 export interface fusionListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by the `printExpr`
-	 * labeled alternative in `fusionParser.stat`.
+	 * Enter a parse tree produced by the `MultDiv`
+	 * labeled alternative in `fusionParser.expression`.
 	 * @param ctx the parse tree
 	 */
-	enterPrintExpr?: (ctx: PrintExprContext) => void;
+	enterMultDiv?: (ctx: MultDivContext) => void;
 	/**
-	 * Exit a parse tree produced by the `printExpr`
-	 * labeled alternative in `fusionParser.stat`.
+	 * Exit a parse tree produced by the `MultDiv`
+	 * labeled alternative in `fusionParser.expression`.
 	 * @param ctx the parse tree
 	 */
-	exitPrintExpr?: (ctx: PrintExprContext) => void;
-
-	/**
-	 * Enter a parse tree produced by the `assign`
-	 * labeled alternative in `fusionParser.stat`.
-	 * @param ctx the parse tree
-	 */
-	enterAssign?: (ctx: AssignContext) => void;
-	/**
-	 * Exit a parse tree produced by the `assign`
-	 * labeled alternative in `fusionParser.stat`.
-	 * @param ctx the parse tree
-	 */
-	exitAssign?: (ctx: AssignContext) => void;
-
-	/**
-	 * Enter a parse tree produced by the `blank`
-	 * labeled alternative in `fusionParser.stat`.
-	 * @param ctx the parse tree
-	 */
-	enterBlank?: (ctx: BlankContext) => void;
-	/**
-	 * Exit a parse tree produced by the `blank`
-	 * labeled alternative in `fusionParser.stat`.
-	 * @param ctx the parse tree
-	 */
-	exitBlank?: (ctx: BlankContext) => void;
-
-	/**
-	 * Enter a parse tree produced by the `MulDiv`
-	 * labeled alternative in `fusionParser.expr`.
-	 * @param ctx the parse tree
-	 */
-	enterMulDiv?: (ctx: MulDivContext) => void;
-	/**
-	 * Exit a parse tree produced by the `MulDiv`
-	 * labeled alternative in `fusionParser.expr`.
-	 * @param ctx the parse tree
-	 */
-	exitMulDiv?: (ctx: MulDivContext) => void;
+	exitMultDiv?: (ctx: MultDivContext) => void;
 
 	/**
 	 * Enter a parse tree produced by the `AddSub`
-	 * labeled alternative in `fusionParser.expr`.
+	 * labeled alternative in `fusionParser.expression`.
 	 * @param ctx the parse tree
 	 */
 	enterAddSub?: (ctx: AddSubContext) => void;
 	/**
 	 * Exit a parse tree produced by the `AddSub`
-	 * labeled alternative in `fusionParser.expr`.
+	 * labeled alternative in `fusionParser.expression`.
 	 * @param ctx the parse tree
 	 */
 	exitAddSub?: (ctx: AddSubContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `int`
-	 * labeled alternative in `fusionParser.expr`.
+	 * Enter a parse tree produced by the `Int`
+	 * labeled alternative in `fusionParser.expression`.
 	 * @param ctx the parse tree
 	 */
 	enterInt?: (ctx: IntContext) => void;
 	/**
-	 * Exit a parse tree produced by the `int`
-	 * labeled alternative in `fusionParser.expr`.
+	 * Exit a parse tree produced by the `Int`
+	 * labeled alternative in `fusionParser.expression`.
 	 * @param ctx the parse tree
 	 */
 	exitInt?: (ctx: IntContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `id`
-	 * labeled alternative in `fusionParser.expr`.
+	 * Enter a parse tree produced by `fusionParser.program`.
 	 * @param ctx the parse tree
 	 */
-	enterId?: (ctx: IdContext) => void;
+	enterProgram?: (ctx: ProgramContext) => void;
 	/**
-	 * Exit a parse tree produced by the `id`
-	 * labeled alternative in `fusionParser.expr`.
+	 * Exit a parse tree produced by `fusionParser.program`.
 	 * @param ctx the parse tree
 	 */
-	exitId?: (ctx: IdContext) => void;
+	exitProgram?: (ctx: ProgramContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `parens`
-	 * labeled alternative in `fusionParser.expr`.
+	 * Enter a parse tree produced by `fusionParser.statement`.
 	 * @param ctx the parse tree
 	 */
-	enterParens?: (ctx: ParensContext) => void;
+	enterStatement?: (ctx: StatementContext) => void;
 	/**
-	 * Exit a parse tree produced by the `parens`
-	 * labeled alternative in `fusionParser.expr`.
+	 * Exit a parse tree produced by `fusionParser.statement`.
 	 * @param ctx the parse tree
 	 */
-	exitParens?: (ctx: ParensContext) => void;
+	exitStatement?: (ctx: StatementContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `fusionParser.prog`.
+	 * Enter a parse tree produced by `fusionParser.expression`.
 	 * @param ctx the parse tree
 	 */
-	enterProg?: (ctx: ProgContext) => void;
+	enterExpression?: (ctx: ExpressionContext) => void;
 	/**
-	 * Exit a parse tree produced by `fusionParser.prog`.
+	 * Exit a parse tree produced by `fusionParser.expression`.
 	 * @param ctx the parse tree
 	 */
-	exitProg?: (ctx: ProgContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `fusionParser.stat`.
-	 * @param ctx the parse tree
-	 */
-	enterStat?: (ctx: StatContext) => void;
-	/**
-	 * Exit a parse tree produced by `fusionParser.stat`.
-	 * @param ctx the parse tree
-	 */
-	exitStat?: (ctx: StatContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `fusionParser.expr`.
-	 * @param ctx the parse tree
-	 */
-	enterExpr?: (ctx: ExprContext) => void;
-	/**
-	 * Exit a parse tree produced by `fusionParser.expr`.
-	 * @param ctx the parse tree
-	 */
-	exitExpr?: (ctx: ExprContext) => void;
+	exitExpression?: (ctx: ExpressionContext) => void;
 }
 

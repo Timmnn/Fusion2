@@ -1,20 +1,20 @@
 grammar fusion;
 
-prog:   stat+ ;
+program:   statement+ ;
 
-stat:   expr NEWLINE                # printExpr
-    |   ID '=' expr NEWLINE         # assign
-    |   NEWLINE                     # blank
-    ;
+statement
+  :  expression
+  ;
 
-expr:   expr ('*'|'/') expr         # MulDiv
-    |   expr ('+'|'-') expr         # AddSub
-    |   INT                         # int
-    |   ID                          # id
-    |   '(' expr ')'                # parens
-    ;
+expression
+  :  expression ('*'|'/') expression  #MultDiv
+  |  expression ('+'|'-') expression  #AddSub
+  |  INT  #Int
+  ;
+
+
 
 ID  :   [a-zA-Z]+ ;
 INT :   [0-9]+ ;
-NEWLINE : [\r\n]+ ;
+NEWLINE : [\r\n]+ -> skip ;
 WS  :   [ \t]+ -> skip ;

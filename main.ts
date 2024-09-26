@@ -1,6 +1,8 @@
 import { CharStreams, CommonTokenStream } from "antlr4ts";
 import { fusionLexer } from "./generated/fusionLexer";
 import {
+  AddSubContext,
+  ExprContext,
   fusionParser,
   ProgContext,
   StatContext,
@@ -23,18 +25,50 @@ function runCompiler(input: string) {
 }
 
 function walkProg(ctx: ProgContext) {
-  return (ctx.children || []).map((child) => {
-    switch (true) {
-      case child instanceof StatContext:
-        return walkStat(child);
-      default:
-        throw `Invalid Node in Prog: ${child.constructor.name}`;
-    }
-  });
+  return `int main() {
+    ${(ctx.children || [])
+      .map((child) => {
+        switch (true) {
+          case child instanceof StatContext:
+            return walkStat(child);
+          default:
+            throw `Invalid Node in Prog: ${child.constructor.name}`;
+        }
+      })
+      .join("")}
+    return 0;
+  }`;
 }
 
 function walkStat(ctx: StatContext) {
-  return "a";
+  return (ctx.children || [])
+    .map((child) => {
+      switch (true) {
+        case child instanceof ExprContext:
+          return walkExpr(child);
+      }
+    })
+    .join("");
+}
+
+function walkExpr(ctx: ExprContext) {
+  console.log(ctx.children?.map((child) => child.text));
+
+  console.assert(
+    ctx.children?.length === 1,
+    "Expr has to have exactly 1 child. Found " + ctx.children?.length,
+  );
+  const child = ctx.children![0];
+
+  switch (true) {
+    case child instanceof AddSubContext:
+      return walkAddSub(child);
+  }
+}
+
+function walkAddSub(ctx: AddSubContext) {
+  console.log(ctx.text);
+  return "addsub";
 }
 
 // Sample usage

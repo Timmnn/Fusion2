@@ -2,12 +2,14 @@ import { CharStreams, CommonTokenStream } from "antlr4ts";
 import { fusionLexer } from "./generated/fusionLexer";
 import {
   AddSubContext,
-  ExprContext,
+  ExpressionContext,
   fusionParser,
-  ProgContext,
-  StatContext,
+  ProgramContext,
+  StatementContext,
 } from "./generated/fusionParser";
 import { assert } from "console";
+import { deflate } from "zlib";
+import { TerminalNode } from "antlr4ts/tree/TerminalNode";
 
 // Main function to run the compiler
 function runCompiler(input: string) {
@@ -16,21 +18,26 @@ function runCompiler(input: string) {
   const tokenStream = new CommonTokenStream(lexer);
   const parser = new fusionParser(tokenStream);
 
-  const tree = parser.prog(); // Start parsing at 'prog' rule
+  const tree = parser.program(); // Start parsing at 'prog' rule
 
-  console.assert(tree instanceof ProgContext, "Top Level Node has to be Prog");
+  console.log(tree.toStringTree());
 
-  const code = walkProg(tree);
+  console.assert(
+    tree instanceof ProgramContext,
+    "Top Level Node has to be Prog",
+  );
+
+  const code = walkProgram(tree);
   console.log(code);
 }
 
-function walkProg(ctx: ProgContext) {
+function walkProgram(ctx: ProgramContext) {
   return `int main() {
     ${(ctx.children || [])
       .map((child) => {
         switch (true) {
-          case child instanceof StatContext:
-            return walkStat(child);
+          case child instanceof StatementContext:
+            return walkStatement(child);
           default:
             throw `Invalid Node in Prog: ${child.constructor.name}`;
         }
@@ -40,42 +47,44 @@ function walkProg(ctx: ProgContext) {
   }`;
 }
 
-function walkStat(ctx: StatContext) {
+function walkStatement(ctx: StatementContext) {
   return (ctx.children || [])
     .map((child) => {
       switch (true) {
-        case child instanceof ExprContext:
-          return walkExpr(child);
+        case child instanceof ExpressionContext:
+          return walkExpression(child);
       }
     })
     .join("");
 }
 
-function walkExpr(ctx: ExprContext) {
-  console.log(ctx.children?.map((child) => child.text));
-
-  console.assert(
-    ctx.children?.length === 1,
-    "Expr has to have exactly 1 child. Found " + ctx.children?.length,
-  );
-  const child = ctx.children![0];
-
+function walkExpression(ctx: ExpressionContext) {
   switch (true) {
-    case child instanceof AddSubContext:
-      return walkAddSub(child);
+    case ctx.children?.at(0) instanceof ExpressionContext &&
+      ctx.children?.at(1)?.text === "+" &&
+      ctx.children?.at(2) instanceof ExpressionContext:
+      return walkAddSub(ctx as AddSubContext);
+    default:
+      "Invalid Expression";
   }
 }
 
 function walkAddSub(ctx: AddSubContext) {
-  console.log(ctx.text);
-  return "addsub";
+  const [first_expr, operator, second_exrp]: [
+    ExpressionContext,
+    TerminalNode,
+    ExpressionContext,
+  ] = ctx.children || [];
+
+  console.log(ctx.children.map((child) => child.constructor.name));
+
+  if (!!first_expr && !!operator && !!second_exrp) {
+    throw "ERROR";
+  }
+
+  return `${walkExpression(first_expr)} ${operator.text} ${walkExpression(second_exrp)}`;
 }
 
 // Sample usage
-const program = `
-    3 + 5
-    7 * (4 - 2)
-    x = 10
-    x + 20
-`;
+const program = `3 + 5 + 5`;
 runCompiler(program);

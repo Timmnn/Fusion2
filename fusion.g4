@@ -1,20 +1,18 @@
 grammar fusion;
 
-program:   statement+ ;
+program: statement+ ;
 
 statement
-  :  expression
+  : expression
   ;
 
 expression
-  :  expression ('*'|'/') expression  #MultDiv
-  |  expression ('+'|'-') expression  #AddSub
-  |  INT  #Int
+  : INT #Int
+  | expression ('+' | '-') expression #AddSub
   ;
 
 
 
-ID  :   [a-zA-Z]+ ;
-INT :   [0-9]+ ;
+INT : [0-9]+ ;
 NEWLINE : [\r\n]+ -> skip ;
-WS  :   [ \t]+ -> skip ;
+WS : [ \t]+ -> skip ;

@@ -3,9 +3,8 @@
 
 import { ParseTreeListener } from "antlr4ts/tree/ParseTreeListener";
 
-import { MultDivContext } from "./fusionParser";
-import { AddSubContext } from "./fusionParser";
 import { IntContext } from "./fusionParser";
+import { AddSubContext } from "./fusionParser";
 import { ProgramContext } from "./fusionParser";
 import { StatementContext } from "./fusionParser";
 import { ExpressionContext } from "./fusionParser";
@@ -17,17 +16,17 @@ import { ExpressionContext } from "./fusionParser";
  */
 export interface fusionListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by the `MultDiv`
+	 * Enter a parse tree produced by the `Int`
 	 * labeled alternative in `fusionParser.expression`.
 	 * @param ctx the parse tree
 	 */
-	enterMultDiv?: (ctx: MultDivContext) => void;
+	enterInt?: (ctx: IntContext) => void;
 	/**
-	 * Exit a parse tree produced by the `MultDiv`
+	 * Exit a parse tree produced by the `Int`
 	 * labeled alternative in `fusionParser.expression`.
 	 * @param ctx the parse tree
 	 */
-	exitMultDiv?: (ctx: MultDivContext) => void;
+	exitInt?: (ctx: IntContext) => void;
 
 	/**
 	 * Enter a parse tree produced by the `AddSub`
@@ -41,19 +40,6 @@ export interface fusionListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitAddSub?: (ctx: AddSubContext) => void;
-
-	/**
-	 * Enter a parse tree produced by the `Int`
-	 * labeled alternative in `fusionParser.expression`.
-	 * @param ctx the parse tree
-	 */
-	enterInt?: (ctx: IntContext) => void;
-	/**
-	 * Exit a parse tree produced by the `Int`
-	 * labeled alternative in `fusionParser.expression`.
-	 * @param ctx the parse tree
-	 */
-	exitInt?: (ctx: IntContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `fusionParser.program`.

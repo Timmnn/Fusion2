@@ -5,9 +5,20 @@ import { ParseTreeListener } from "antlr4ts/tree/ParseTreeListener";
 
 import { IntContext } from "./fusionParser";
 import { AddSubContext } from "./fusionParser";
+import { FuncCallContext } from "./fusionParser";
+import { IdContext } from "./fusionParser";
+import { StrLitContext } from "./fusionParser";
 import { ProgramContext } from "./fusionParser";
 import { StatementContext } from "./fusionParser";
 import { ExpressionContext } from "./fusionParser";
+import { FunctionCallContext } from "./fusionParser";
+import { BlockContext } from "./fusionParser";
+import { FuncDefContext } from "./fusionParser";
+import { FuncDefArgListContext } from "./fusionParser";
+import { FuncDefArgContext } from "./fusionParser";
+import { ReturnStatementContext } from "./fusionParser";
+import { ArgListContext } from "./fusionParser";
+import { ArgContext } from "./fusionParser";
 
 
 /**
@@ -42,6 +53,45 @@ export interface fusionListener extends ParseTreeListener {
 	exitAddSub?: (ctx: AddSubContext) => void;
 
 	/**
+	 * Enter a parse tree produced by the `FuncCall`
+	 * labeled alternative in `fusionParser.expression`.
+	 * @param ctx the parse tree
+	 */
+	enterFuncCall?: (ctx: FuncCallContext) => void;
+	/**
+	 * Exit a parse tree produced by the `FuncCall`
+	 * labeled alternative in `fusionParser.expression`.
+	 * @param ctx the parse tree
+	 */
+	exitFuncCall?: (ctx: FuncCallContext) => void;
+
+	/**
+	 * Enter a parse tree produced by the `Id`
+	 * labeled alternative in `fusionParser.expression`.
+	 * @param ctx the parse tree
+	 */
+	enterId?: (ctx: IdContext) => void;
+	/**
+	 * Exit a parse tree produced by the `Id`
+	 * labeled alternative in `fusionParser.expression`.
+	 * @param ctx the parse tree
+	 */
+	exitId?: (ctx: IdContext) => void;
+
+	/**
+	 * Enter a parse tree produced by the `StrLit`
+	 * labeled alternative in `fusionParser.expression`.
+	 * @param ctx the parse tree
+	 */
+	enterStrLit?: (ctx: StrLitContext) => void;
+	/**
+	 * Exit a parse tree produced by the `StrLit`
+	 * labeled alternative in `fusionParser.expression`.
+	 * @param ctx the parse tree
+	 */
+	exitStrLit?: (ctx: StrLitContext) => void;
+
+	/**
 	 * Enter a parse tree produced by `fusionParser.program`.
 	 * @param ctx the parse tree
 	 */
@@ -73,5 +123,93 @@ export interface fusionListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitExpression?: (ctx: ExpressionContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `fusionParser.functionCall`.
+	 * @param ctx the parse tree
+	 */
+	enterFunctionCall?: (ctx: FunctionCallContext) => void;
+	/**
+	 * Exit a parse tree produced by `fusionParser.functionCall`.
+	 * @param ctx the parse tree
+	 */
+	exitFunctionCall?: (ctx: FunctionCallContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `fusionParser.block`.
+	 * @param ctx the parse tree
+	 */
+	enterBlock?: (ctx: BlockContext) => void;
+	/**
+	 * Exit a parse tree produced by `fusionParser.block`.
+	 * @param ctx the parse tree
+	 */
+	exitBlock?: (ctx: BlockContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `fusionParser.funcDef`.
+	 * @param ctx the parse tree
+	 */
+	enterFuncDef?: (ctx: FuncDefContext) => void;
+	/**
+	 * Exit a parse tree produced by `fusionParser.funcDef`.
+	 * @param ctx the parse tree
+	 */
+	exitFuncDef?: (ctx: FuncDefContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `fusionParser.funcDefArgList`.
+	 * @param ctx the parse tree
+	 */
+	enterFuncDefArgList?: (ctx: FuncDefArgListContext) => void;
+	/**
+	 * Exit a parse tree produced by `fusionParser.funcDefArgList`.
+	 * @param ctx the parse tree
+	 */
+	exitFuncDefArgList?: (ctx: FuncDefArgListContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `fusionParser.funcDefArg`.
+	 * @param ctx the parse tree
+	 */
+	enterFuncDefArg?: (ctx: FuncDefArgContext) => void;
+	/**
+	 * Exit a parse tree produced by `fusionParser.funcDefArg`.
+	 * @param ctx the parse tree
+	 */
+	exitFuncDefArg?: (ctx: FuncDefArgContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `fusionParser.returnStatement`.
+	 * @param ctx the parse tree
+	 */
+	enterReturnStatement?: (ctx: ReturnStatementContext) => void;
+	/**
+	 * Exit a parse tree produced by `fusionParser.returnStatement`.
+	 * @param ctx the parse tree
+	 */
+	exitReturnStatement?: (ctx: ReturnStatementContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `fusionParser.argList`.
+	 * @param ctx the parse tree
+	 */
+	enterArgList?: (ctx: ArgListContext) => void;
+	/**
+	 * Exit a parse tree produced by `fusionParser.argList`.
+	 * @param ctx the parse tree
+	 */
+	exitArgList?: (ctx: ArgListContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `fusionParser.arg`.
+	 * @param ctx the parse tree
+	 */
+	enterArg?: (ctx: ArgContext) => void;
+	/**
+	 * Exit a parse tree produced by `fusionParser.arg`.
+	 * @param ctx the parse tree
+	 */
+	exitArg?: (ctx: ArgContext) => void;
 }
 

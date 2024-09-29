@@ -1,18 +1,73 @@
 grammar fusion;
 
-program: statement+ ;
+program
+  : statement+ 
+  ;
 
 statement
-  : expression
+  : returnStatement 
+  | funcDef
+  | expression
   ;
 
 expression
-  : INT #Int
-  | expression ('+' | '-') expression #AddSub
+  : INT                               #Int
+  | expression ('+' | '-') expression  #AddSub
+  | functionCall                      #FuncCall  // Renamed label to avoid conflict
+  | ID                                # Id
+  | STR_LIT                           #StrLit
   ;
 
+functionCall
+  : ID '(' argList? ')'
+  ;
+
+block
+  : '{' statement* '}' ;
 
 
-INT : [0-9]+ ;
-NEWLINE : [\r\n]+ -> skip ;
-WS : [ \t]+ -> skip ;
+
+funcDef
+  : ID '(' funcDefArgList ')' ID block;
+
+
+funcDefArgList 
+  : funcDefArg (',' funcDefArg)* ;
+
+funcDefArg
+  : ID ':' ID ;
+
+
+returnStatement
+  : ret=RETURN expr=expression ;
+
+
+argList
+  : arg (',' arg)*
+  ;
+
+arg
+  : expression
+  ;
+RETURN
+  : 'return' ;
+
+STR_LIT
+  : '"' (~["\\] | '\\' .)* '"'
+  ;
+
+ID
+  : [a-zA-Z]+
+  ;
+
+INT
+  : [0-9]+
+  ;
+
+NEWLINE
+  : [\r\n]+ -> skip
+  ;
+
+WS
+  : [ \t]+ -> skip
+  ;

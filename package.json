@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "compile": "bun main.ts",
-    "generate_parser": "antlr4ts fusion.g4 -o ./generated"
+    "generate_parser": "antlr4ts fusion.g4 -o ./generated",
+    "run": "clear; yarn run generate_parser; yarn run compile"
   },
   "author": "",
   "license": "ISC",

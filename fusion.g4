@@ -6,6 +6,8 @@ program
 
 statement
   : returnStatement 
+  | varDecl
+  | assign
   | funcDef
   | expression
   ;
@@ -36,6 +38,14 @@ funcDefArgList
 
 funcDefArg
   : ID ':' ID ;
+
+
+varDecl
+  : ID ID '=' expression ;
+
+assign
+  : ID '=' expression ;
+
 
 
 returnStatement

@@ -16,6 +16,8 @@ import { BlockContext } from "./fusionParser";
 import { FuncDefContext } from "./fusionParser";
 import { FuncDefArgListContext } from "./fusionParser";
 import { FuncDefArgContext } from "./fusionParser";
+import { VarDeclContext } from "./fusionParser";
+import { AssignContext } from "./fusionParser";
 import { ReturnStatementContext } from "./fusionParser";
 import { ArgListContext } from "./fusionParser";
 import { ArgContext } from "./fusionParser";
@@ -178,6 +180,28 @@ export interface fusionListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitFuncDefArg?: (ctx: FuncDefArgContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `fusionParser.varDecl`.
+	 * @param ctx the parse tree
+	 */
+	enterVarDecl?: (ctx: VarDeclContext) => void;
+	/**
+	 * Exit a parse tree produced by `fusionParser.varDecl`.
+	 * @param ctx the parse tree
+	 */
+	exitVarDecl?: (ctx: VarDeclContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `fusionParser.assign`.
+	 * @param ctx the parse tree
+	 */
+	enterAssign?: (ctx: AssignContext) => void;
+	/**
+	 * Exit a parse tree produced by `fusionParser.assign`.
+	 * @param ctx the parse tree
+	 */
+	exitAssign?: (ctx: AssignContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `fusionParser.returnStatement`.

@@ -170,11 +170,32 @@ function walkStatement(ctx: StatementContext) {
 }
 
 function walkVarDecl(ctx: VarDeclContext) {
-  return "VARDECL";
+  if (!ctx.children || ctx.children.length !== 4) {
+    throw new InvalidChildCountError({
+      expected: 4,
+      got: ctx.children?.length,
+    });
+  }
+
+  const type = ctx.children[0] as IdContext;
+  const id = ctx.children[1] as IdContext;
+  const value = ctx.children[3] as ExpressionContext;
+
+  return `${walkId(type)} ${walkId(id)} = ${walkExpression(value)}`;
 }
 
 function walkAssign(ctx: AssignContext) {
-  return "Assign";
+  if (!ctx.children || ctx.children.length !== 3) {
+    throw new InvalidChildCountError({
+      expected: 3,
+      got: ctx.children?.length,
+    });
+  }
+
+  const variable = ctx.children[0] as IdContext;
+  const value = ctx.children[2] as ExpressionContext;
+
+  return `${walkId(variable)} = ${walkExpression(value)}`;
 }
 
 class InvalidChildCountError extends Error {

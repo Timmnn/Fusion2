@@ -35,40 +35,49 @@ export class fusionParser extends Parser {
 	public static readonly T__6 = 7;
 	public static readonly T__7 = 8;
 	public static readonly T__8 = 9;
-	public static readonly RETURN = 10;
-	public static readonly STR_LIT = 11;
-	public static readonly ID = 12;
-	public static readonly INT = 13;
-	public static readonly NEWLINE = 14;
-	public static readonly WS = 15;
+	public static readonly T__9 = 10;
+	public static readonly T__10 = 11;
+	public static readonly T__11 = 12;
+	public static readonly T__12 = 13;
+	public static readonly T__13 = 14;
+	public static readonly T__14 = 15;
+	public static readonly RETURN = 16;
+	public static readonly STR_LIT = 17;
+	public static readonly ID = 18;
+	public static readonly INT = 19;
+	public static readonly NEWLINE = 20;
+	public static readonly WS = 21;
 	public static readonly RULE_program = 0;
 	public static readonly RULE_statement = 1;
 	public static readonly RULE_expression = 2;
 	public static readonly RULE_functionCall = 3;
 	public static readonly RULE_block = 4;
 	public static readonly RULE_funcDef = 5;
-	public static readonly RULE_funcDefArgList = 6;
-	public static readonly RULE_funcDefArg = 7;
-	public static readonly RULE_varDecl = 8;
-	public static readonly RULE_assign = 9;
-	public static readonly RULE_returnStatement = 10;
-	public static readonly RULE_argList = 11;
-	public static readonly RULE_arg = 12;
+	public static readonly RULE_ifStatement = 6;
+	public static readonly RULE_whileLoop = 7;
+	public static readonly RULE_forLoop = 8;
+	public static readonly RULE_funcDefArgList = 9;
+	public static readonly RULE_funcDefArg = 10;
+	public static readonly RULE_varDecl = 11;
+	public static readonly RULE_assign = 12;
+	public static readonly RULE_returnStatement = 13;
+	public static readonly RULE_argList = 14;
+	public static readonly RULE_arg = 15;
 	// tslint:disable:no-trailing-whitespace
 	public static readonly ruleNames: string[] = [
 		"program", "statement", "expression", "functionCall", "block", "funcDef", 
-		"funcDefArgList", "funcDefArg", "varDecl", "assign", "returnStatement", 
-		"argList", "arg",
+		"ifStatement", "whileLoop", "forLoop", "funcDefArgList", "funcDefArg", 
+		"varDecl", "assign", "returnStatement", "argList", "arg",
 	];
 
 	private static readonly _LITERAL_NAMES: Array<string | undefined> = [
-		undefined, "'+'", "'-'", "'('", "')'", "'{'", "'}'", "','", "':'", "'='", 
-		"'return'",
+		undefined, "'+'", "'-'", "'>'", "'<'", "'('", "')'", "'{'", "'}'", "'if'", 
+		"'while'", "'for'", "'to'", "','", "':'", "'='", "'return'",
 	];
 	private static readonly _SYMBOLIC_NAMES: Array<string | undefined> = [
 		undefined, undefined, undefined, undefined, undefined, undefined, undefined, 
-		undefined, undefined, undefined, "RETURN", "STR_LIT", "ID", "INT", "NEWLINE", 
-		"WS",
+		undefined, undefined, undefined, undefined, undefined, undefined, undefined, 
+		undefined, undefined, "RETURN", "STR_LIT", "ID", "INT", "NEWLINE", "WS",
 	];
 	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(fusionParser._LITERAL_NAMES, fusionParser._SYMBOLIC_NAMES, []);
 
@@ -104,20 +113,20 @@ export class fusionParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 27;
+			this.state = 33;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			do {
 				{
 				{
-				this.state = 26;
+				this.state = 32;
 				this.statement();
 				}
 				}
-				this.state = 29;
+				this.state = 35;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << fusionParser.RETURN) | (1 << fusionParser.STR_LIT) | (1 << fusionParser.ID) | (1 << fusionParser.INT))) !== 0));
+			} while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << fusionParser.T__8) | (1 << fusionParser.T__9) | (1 << fusionParser.T__10) | (1 << fusionParser.RETURN) | (1 << fusionParser.STR_LIT) | (1 << fusionParser.ID) | (1 << fusionParser.INT))) !== 0));
 			}
 		}
 		catch (re) {
@@ -139,13 +148,13 @@ export class fusionParser extends Parser {
 		let _localctx: StatementContext = new StatementContext(this._ctx, this.state);
 		this.enterRule(_localctx, 2, fusionParser.RULE_statement);
 		try {
-			this.state = 36;
+			this.state = 45;
 			this._errHandler.sync(this);
 			switch ( this.interpreter.adaptivePredict(this._input, 1, this._ctx) ) {
 			case 1:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 31;
+				this.state = 37;
 				this.returnStatement();
 				}
 				break;
@@ -153,31 +162,55 @@ export class fusionParser extends Parser {
 			case 2:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 32;
-				this.varDecl();
+				this.state = 38;
+				this.ifStatement();
 				}
 				break;
 
 			case 3:
 				this.enterOuterAlt(_localctx, 3);
 				{
-				this.state = 33;
-				this.assign();
+				this.state = 39;
+				this.whileLoop();
 				}
 				break;
 
 			case 4:
 				this.enterOuterAlt(_localctx, 4);
 				{
-				this.state = 34;
-				this.funcDef();
+				this.state = 40;
+				this.forLoop();
 				}
 				break;
 
 			case 5:
 				this.enterOuterAlt(_localctx, 5);
 				{
-				this.state = 35;
+				this.state = 41;
+				this.varDecl();
+				}
+				break;
+
+			case 6:
+				this.enterOuterAlt(_localctx, 6);
+				{
+				this.state = 42;
+				this.assign();
+				}
+				break;
+
+			case 7:
+				this.enterOuterAlt(_localctx, 7);
+				{
+				this.state = 43;
+				this.funcDef();
+				}
+				break;
+
+			case 8:
+				this.enterOuterAlt(_localctx, 8);
+				{
+				this.state = 44;
 				this.expression(0);
 				}
 				break;
@@ -217,7 +250,7 @@ export class fusionParser extends Parser {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 43;
+			this.state = 52;
 			this._errHandler.sync(this);
 			switch ( this.interpreter.adaptivePredict(this._input, 2, this._ctx) ) {
 			case 1:
@@ -226,7 +259,7 @@ export class fusionParser extends Parser {
 				this._ctx = _localctx;
 				_prevctx = _localctx;
 
-				this.state = 39;
+				this.state = 48;
 				this.match(fusionParser.INT);
 				}
 				break;
@@ -236,7 +269,7 @@ export class fusionParser extends Parser {
 				_localctx = new FuncCallContext(_localctx);
 				this._ctx = _localctx;
 				_prevctx = _localctx;
-				this.state = 40;
+				this.state = 49;
 				this.functionCall();
 				}
 				break;
@@ -246,7 +279,7 @@ export class fusionParser extends Parser {
 				_localctx = new IdContext(_localctx);
 				this._ctx = _localctx;
 				_prevctx = _localctx;
-				this.state = 41;
+				this.state = 50;
 				this.match(fusionParser.ID);
 				}
 				break;
@@ -256,15 +289,15 @@ export class fusionParser extends Parser {
 				_localctx = new StrLitContext(_localctx);
 				this._ctx = _localctx;
 				_prevctx = _localctx;
-				this.state = 42;
+				this.state = 51;
 				this.match(fusionParser.STR_LIT);
 				}
 				break;
 			}
 			this._ctx._stop = this._input.tryLT(-1);
-			this.state = 50;
+			this.state = 62;
 			this._errHandler.sync(this);
-			_alt = this.interpreter.adaptivePredict(this._input, 3, this._ctx);
+			_alt = this.interpreter.adaptivePredict(this._input, 4, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					if (this._parseListeners != null) {
@@ -272,33 +305,64 @@ export class fusionParser extends Parser {
 					}
 					_prevctx = _localctx;
 					{
-					{
-					_localctx = new AddSubContext(new ExpressionContext(_parentctx, _parentState));
-					this.pushNewRecursionContext(_localctx, _startState, fusionParser.RULE_expression);
-					this.state = 45;
-					if (!(this.precpred(this._ctx, 4))) {
-						throw this.createFailedPredicateException("this.precpred(this._ctx, 4)");
-					}
-					this.state = 46;
-					_la = this._input.LA(1);
-					if (!(_la === fusionParser.T__0 || _la === fusionParser.T__1)) {
-					this._errHandler.recoverInline(this);
-					} else {
-						if (this._input.LA(1) === Token.EOF) {
-							this.matchedEOF = true;
+					this.state = 60;
+					this._errHandler.sync(this);
+					switch ( this.interpreter.adaptivePredict(this._input, 3, this._ctx) ) {
+					case 1:
+						{
+						_localctx = new AddSubContext(new ExpressionContext(_parentctx, _parentState));
+						this.pushNewRecursionContext(_localctx, _startState, fusionParser.RULE_expression);
+						this.state = 54;
+						if (!(this.precpred(this._ctx, 5))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 5)");
 						}
+						this.state = 55;
+						_la = this._input.LA(1);
+						if (!(_la === fusionParser.T__0 || _la === fusionParser.T__1)) {
+						this._errHandler.recoverInline(this);
+						} else {
+							if (this._input.LA(1) === Token.EOF) {
+								this.matchedEOF = true;
+							}
 
-						this._errHandler.reportMatch(this);
-						this.consume();
-					}
-					this.state = 47;
-					this.expression(5);
+							this._errHandler.reportMatch(this);
+							this.consume();
+						}
+						this.state = 56;
+						this.expression(6);
+						}
+						break;
+
+					case 2:
+						{
+						_localctx = new NumCompContext(new ExpressionContext(_parentctx, _parentState));
+						this.pushNewRecursionContext(_localctx, _startState, fusionParser.RULE_expression);
+						this.state = 57;
+						if (!(this.precpred(this._ctx, 1))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 1)");
+						}
+						this.state = 58;
+						_la = this._input.LA(1);
+						if (!(_la === fusionParser.T__2 || _la === fusionParser.T__3)) {
+						this._errHandler.recoverInline(this);
+						} else {
+							if (this._input.LA(1) === Token.EOF) {
+								this.matchedEOF = true;
+							}
+
+							this._errHandler.reportMatch(this);
+							this.consume();
+						}
+						this.state = 59;
+						this.expression(2);
+						}
+						break;
 					}
 					}
 				}
-				this.state = 52;
+				this.state = 64;
 				this._errHandler.sync(this);
-				_alt = this.interpreter.adaptivePredict(this._input, 3, this._ctx);
+				_alt = this.interpreter.adaptivePredict(this._input, 4, this._ctx);
 			}
 			}
 		}
@@ -324,22 +388,22 @@ export class fusionParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 53;
+			this.state = 65;
 			this.match(fusionParser.ID);
-			this.state = 54;
-			this.match(fusionParser.T__2);
-			this.state = 56;
+			this.state = 66;
+			this.match(fusionParser.T__4);
+			this.state = 68;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << fusionParser.STR_LIT) | (1 << fusionParser.ID) | (1 << fusionParser.INT))) !== 0)) {
 				{
-				this.state = 55;
+				this.state = 67;
 				this.argList();
 				}
 			}
 
-			this.state = 58;
-			this.match(fusionParser.T__3);
+			this.state = 70;
+			this.match(fusionParser.T__5);
 			}
 		}
 		catch (re) {
@@ -364,24 +428,24 @@ export class fusionParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 60;
-			this.match(fusionParser.T__4);
-			this.state = 64;
+			this.state = 72;
+			this.match(fusionParser.T__6);
+			this.state = 76;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << fusionParser.RETURN) | (1 << fusionParser.STR_LIT) | (1 << fusionParser.ID) | (1 << fusionParser.INT))) !== 0)) {
+			while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << fusionParser.T__8) | (1 << fusionParser.T__9) | (1 << fusionParser.T__10) | (1 << fusionParser.RETURN) | (1 << fusionParser.STR_LIT) | (1 << fusionParser.ID) | (1 << fusionParser.INT))) !== 0)) {
 				{
 				{
-				this.state = 61;
+				this.state = 73;
 				this.statement();
 				}
 				}
-				this.state = 66;
+				this.state = 78;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 67;
-			this.match(fusionParser.T__5);
+			this.state = 79;
+			this.match(fusionParser.T__7);
 			}
 		}
 		catch (re) {
@@ -405,17 +469,108 @@ export class fusionParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 69;
+			this.state = 81;
 			this.match(fusionParser.ID);
-			this.state = 70;
-			this.match(fusionParser.T__2);
-			this.state = 71;
+			this.state = 82;
+			this.match(fusionParser.T__4);
+			this.state = 83;
 			this.funcDefArgList();
-			this.state = 72;
-			this.match(fusionParser.T__3);
-			this.state = 73;
+			this.state = 84;
+			this.match(fusionParser.T__5);
+			this.state = 85;
 			this.match(fusionParser.ID);
-			this.state = 74;
+			this.state = 86;
+			this.block();
+			}
+		}
+		catch (re) {
+			if (re instanceof RecognitionException) {
+				_localctx.exception = re;
+				this._errHandler.reportError(this, re);
+				this._errHandler.recover(this, re);
+			} else {
+				throw re;
+			}
+		}
+		finally {
+			this.exitRule();
+		}
+		return _localctx;
+	}
+	// @RuleVersion(0)
+	public ifStatement(): IfStatementContext {
+		let _localctx: IfStatementContext = new IfStatementContext(this._ctx, this.state);
+		this.enterRule(_localctx, 12, fusionParser.RULE_ifStatement);
+		try {
+			this.enterOuterAlt(_localctx, 1);
+			{
+			this.state = 88;
+			this.match(fusionParser.T__8);
+			this.state = 89;
+			this.expression(0);
+			this.state = 90;
+			this.block();
+			}
+		}
+		catch (re) {
+			if (re instanceof RecognitionException) {
+				_localctx.exception = re;
+				this._errHandler.reportError(this, re);
+				this._errHandler.recover(this, re);
+			} else {
+				throw re;
+			}
+		}
+		finally {
+			this.exitRule();
+		}
+		return _localctx;
+	}
+	// @RuleVersion(0)
+	public whileLoop(): WhileLoopContext {
+		let _localctx: WhileLoopContext = new WhileLoopContext(this._ctx, this.state);
+		this.enterRule(_localctx, 14, fusionParser.RULE_whileLoop);
+		try {
+			this.enterOuterAlt(_localctx, 1);
+			{
+			this.state = 92;
+			this.match(fusionParser.T__9);
+			this.state = 93;
+			this.expression(0);
+			this.state = 94;
+			this.block();
+			}
+		}
+		catch (re) {
+			if (re instanceof RecognitionException) {
+				_localctx.exception = re;
+				this._errHandler.reportError(this, re);
+				this._errHandler.recover(this, re);
+			} else {
+				throw re;
+			}
+		}
+		finally {
+			this.exitRule();
+		}
+		return _localctx;
+	}
+	// @RuleVersion(0)
+	public forLoop(): ForLoopContext {
+		let _localctx: ForLoopContext = new ForLoopContext(this._ctx, this.state);
+		this.enterRule(_localctx, 16, fusionParser.RULE_forLoop);
+		try {
+			this.enterOuterAlt(_localctx, 1);
+			{
+			this.state = 96;
+			this.match(fusionParser.T__10);
+			this.state = 97;
+			this.expression(0);
+			this.state = 98;
+			this.match(fusionParser.T__11);
+			this.state = 99;
+			this.expression(0);
+			this.state = 100;
 			this.block();
 			}
 		}
@@ -436,26 +591,26 @@ export class fusionParser extends Parser {
 	// @RuleVersion(0)
 	public funcDefArgList(): FuncDefArgListContext {
 		let _localctx: FuncDefArgListContext = new FuncDefArgListContext(this._ctx, this.state);
-		this.enterRule(_localctx, 12, fusionParser.RULE_funcDefArgList);
+		this.enterRule(_localctx, 18, fusionParser.RULE_funcDefArgList);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 76;
+			this.state = 102;
 			this.funcDefArg();
-			this.state = 81;
+			this.state = 107;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la === fusionParser.T__6) {
+			while (_la === fusionParser.T__12) {
 				{
 				{
-				this.state = 77;
-				this.match(fusionParser.T__6);
-				this.state = 78;
+				this.state = 103;
+				this.match(fusionParser.T__12);
+				this.state = 104;
 				this.funcDefArg();
 				}
 				}
-				this.state = 83;
+				this.state = 109;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
@@ -478,15 +633,15 @@ export class fusionParser extends Parser {
 	// @RuleVersion(0)
 	public funcDefArg(): FuncDefArgContext {
 		let _localctx: FuncDefArgContext = new FuncDefArgContext(this._ctx, this.state);
-		this.enterRule(_localctx, 14, fusionParser.RULE_funcDefArg);
+		this.enterRule(_localctx, 20, fusionParser.RULE_funcDefArg);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 84;
+			this.state = 110;
 			this.match(fusionParser.ID);
-			this.state = 85;
-			this.match(fusionParser.T__7);
-			this.state = 86;
+			this.state = 111;
+			this.match(fusionParser.T__13);
+			this.state = 112;
 			this.match(fusionParser.ID);
 			}
 		}
@@ -507,17 +662,17 @@ export class fusionParser extends Parser {
 	// @RuleVersion(0)
 	public varDecl(): VarDeclContext {
 		let _localctx: VarDeclContext = new VarDeclContext(this._ctx, this.state);
-		this.enterRule(_localctx, 16, fusionParser.RULE_varDecl);
+		this.enterRule(_localctx, 22, fusionParser.RULE_varDecl);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 88;
+			this.state = 114;
 			this.match(fusionParser.ID);
-			this.state = 89;
+			this.state = 115;
 			this.match(fusionParser.ID);
-			this.state = 90;
-			this.match(fusionParser.T__8);
-			this.state = 91;
+			this.state = 116;
+			this.match(fusionParser.T__14);
+			this.state = 117;
 			this.expression(0);
 			}
 		}
@@ -538,15 +693,15 @@ export class fusionParser extends Parser {
 	// @RuleVersion(0)
 	public assign(): AssignContext {
 		let _localctx: AssignContext = new AssignContext(this._ctx, this.state);
-		this.enterRule(_localctx, 18, fusionParser.RULE_assign);
+		this.enterRule(_localctx, 24, fusionParser.RULE_assign);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 93;
+			this.state = 119;
 			this.match(fusionParser.ID);
-			this.state = 94;
-			this.match(fusionParser.T__8);
-			this.state = 95;
+			this.state = 120;
+			this.match(fusionParser.T__14);
+			this.state = 121;
 			this.expression(0);
 			}
 		}
@@ -567,13 +722,13 @@ export class fusionParser extends Parser {
 	// @RuleVersion(0)
 	public returnStatement(): ReturnStatementContext {
 		let _localctx: ReturnStatementContext = new ReturnStatementContext(this._ctx, this.state);
-		this.enterRule(_localctx, 20, fusionParser.RULE_returnStatement);
+		this.enterRule(_localctx, 26, fusionParser.RULE_returnStatement);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 97;
+			this.state = 123;
 			_localctx._ret = this.match(fusionParser.RETURN);
-			this.state = 98;
+			this.state = 124;
 			_localctx._expr = this.expression(0);
 			}
 		}
@@ -594,26 +749,26 @@ export class fusionParser extends Parser {
 	// @RuleVersion(0)
 	public argList(): ArgListContext {
 		let _localctx: ArgListContext = new ArgListContext(this._ctx, this.state);
-		this.enterRule(_localctx, 22, fusionParser.RULE_argList);
+		this.enterRule(_localctx, 28, fusionParser.RULE_argList);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 100;
+			this.state = 126;
 			this.arg();
-			this.state = 105;
+			this.state = 131;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la === fusionParser.T__6) {
+			while (_la === fusionParser.T__12) {
 				{
 				{
-				this.state = 101;
-				this.match(fusionParser.T__6);
-				this.state = 102;
+				this.state = 127;
+				this.match(fusionParser.T__12);
+				this.state = 128;
 				this.arg();
 				}
 				}
-				this.state = 107;
+				this.state = 133;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
@@ -636,11 +791,11 @@ export class fusionParser extends Parser {
 	// @RuleVersion(0)
 	public arg(): ArgContext {
 		let _localctx: ArgContext = new ArgContext(this._ctx, this.state);
-		this.enterRule(_localctx, 24, fusionParser.RULE_arg);
+		this.enterRule(_localctx, 30, fusionParser.RULE_arg);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 108;
+			this.state = 134;
 			this.expression(0);
 			}
 		}
@@ -669,56 +824,69 @@ export class fusionParser extends Parser {
 	private expression_sempred(_localctx: ExpressionContext, predIndex: number): boolean {
 		switch (predIndex) {
 		case 0:
-			return this.precpred(this._ctx, 4);
+			return this.precpred(this._ctx, 5);
+
+		case 1:
+			return this.precpred(this._ctx, 1);
 		}
 		return true;
 	}
 
 	public static readonly _serializedATN: string =
-		"\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03\x11q\x04\x02" +
+		"\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03\x17\x8B\x04\x02" +
 		"\t\x02\x04\x03\t\x03\x04\x04\t\x04\x04\x05\t\x05\x04\x06\t\x06\x04\x07" +
 		"\t\x07\x04\b\t\b\x04\t\t\t\x04\n\t\n\x04\v\t\v\x04\f\t\f\x04\r\t\r\x04" +
-		"\x0E\t\x0E\x03\x02\x06\x02\x1E\n\x02\r\x02\x0E\x02\x1F\x03\x03\x03\x03" +
-		"\x03\x03\x03\x03\x03\x03\x05\x03\'\n\x03\x03\x04\x03\x04\x03\x04\x03\x04" +
-		"\x03\x04\x05\x04.\n\x04\x03\x04\x03\x04\x03\x04\x07\x043\n\x04\f\x04\x0E" +
-		"\x046\v\x04\x03\x05\x03\x05\x03\x05\x05\x05;\n\x05\x03\x05\x03\x05\x03" +
-		"\x06\x03\x06\x07\x06A\n\x06\f\x06\x0E\x06D\v\x06\x03\x06\x03\x06\x03\x07" +
-		"\x03\x07\x03\x07\x03\x07\x03\x07\x03\x07\x03\x07\x03\b\x03\b\x03\b\x07" +
-		"\bR\n\b\f\b\x0E\bU\v\b\x03\t\x03\t\x03\t\x03\t\x03\n\x03\n\x03\n\x03\n" +
-		"\x03\n\x03\v\x03\v\x03\v\x03\v\x03\f\x03\f\x03\f\x03\r\x03\r\x03\r\x07" +
-		"\rj\n\r\f\r\x0E\rm\v\r\x03\x0E\x03\x0E\x03\x0E\x02\x02\x03\x06\x0F\x02" +
-		"\x02\x04\x02\x06\x02\b\x02\n\x02\f\x02\x0E\x02\x10\x02\x12\x02\x14\x02" +
-		"\x16\x02\x18\x02\x1A\x02\x02\x03\x03\x02\x03\x04\x02p\x02\x1D\x03\x02" +
-		"\x02\x02\x04&\x03\x02\x02\x02\x06-\x03\x02\x02\x02\b7\x03\x02\x02\x02" +
-		"\n>\x03\x02\x02\x02\fG\x03\x02\x02\x02\x0EN\x03\x02\x02\x02\x10V\x03\x02" +
-		"\x02\x02\x12Z\x03\x02\x02\x02\x14_\x03\x02\x02\x02\x16c\x03\x02\x02\x02" +
-		"\x18f\x03\x02\x02\x02\x1An\x03\x02\x02\x02\x1C\x1E\x05\x04\x03\x02\x1D" +
-		"\x1C\x03\x02\x02\x02\x1E\x1F\x03\x02\x02\x02\x1F\x1D\x03\x02\x02\x02\x1F" +
-		" \x03\x02\x02\x02 \x03\x03\x02\x02\x02!\'\x05\x16\f\x02\"\'\x05\x12\n" +
-		"\x02#\'\x05\x14\v\x02$\'\x05\f\x07\x02%\'\x05\x06\x04\x02&!\x03\x02\x02" +
-		"\x02&\"\x03\x02\x02\x02&#\x03\x02\x02\x02&$\x03\x02\x02\x02&%\x03\x02" +
-		"\x02\x02\'\x05\x03\x02\x02\x02()\b\x04\x01\x02).\x07\x0F\x02\x02*.\x05" +
-		"\b\x05\x02+.\x07\x0E\x02\x02,.\x07\r\x02\x02-(\x03\x02\x02\x02-*\x03\x02" +
-		"\x02\x02-+\x03\x02\x02\x02-,\x03\x02\x02\x02.4\x03\x02\x02\x02/0\f\x06" +
-		"\x02\x0201\t\x02\x02\x0213\x05\x06\x04\x072/\x03\x02\x02\x0236\x03\x02" +
-		"\x02\x0242\x03\x02\x02\x0245\x03\x02\x02\x025\x07\x03\x02\x02\x0264\x03" +
-		"\x02\x02\x0278\x07\x0E\x02\x028:\x07\x05\x02\x029;\x05\x18\r\x02:9\x03" +
-		"\x02\x02\x02:;\x03\x02\x02\x02;<\x03\x02\x02\x02<=\x07\x06\x02\x02=\t" +
-		"\x03\x02\x02\x02>B\x07\x07\x02\x02?A\x05\x04\x03\x02@?\x03\x02\x02\x02" +
-		"AD\x03\x02\x02\x02B@\x03\x02\x02\x02BC\x03\x02\x02\x02CE\x03\x02\x02\x02" +
-		"DB\x03\x02\x02\x02EF\x07\b\x02\x02F\v\x03\x02\x02\x02GH\x07\x0E\x02\x02" +
-		"HI\x07\x05\x02\x02IJ\x05\x0E\b\x02JK\x07\x06\x02\x02KL\x07\x0E\x02\x02" +
-		"LM\x05\n\x06\x02M\r\x03\x02\x02\x02NS\x05\x10\t\x02OP\x07\t\x02\x02PR" +
-		"\x05\x10\t\x02QO\x03\x02\x02\x02RU\x03\x02\x02\x02SQ\x03\x02\x02\x02S" +
-		"T\x03\x02\x02\x02T\x0F\x03\x02\x02\x02US\x03\x02\x02\x02VW\x07\x0E\x02" +
-		"\x02WX\x07\n\x02\x02XY\x07\x0E\x02\x02Y\x11\x03\x02\x02\x02Z[\x07\x0E" +
-		"\x02\x02[\\\x07\x0E\x02\x02\\]\x07\v\x02\x02]^\x05\x06\x04\x02^\x13\x03" +
-		"\x02\x02\x02_`\x07\x0E\x02\x02`a\x07\v\x02\x02ab\x05\x06\x04\x02b\x15" +
-		"\x03\x02\x02\x02cd\x07\f\x02\x02de\x05\x06\x04\x02e\x17\x03\x02\x02\x02" +
-		"fk\x05\x1A\x0E\x02gh\x07\t\x02\x02hj\x05\x1A\x0E\x02ig\x03\x02\x02\x02" +
-		"jm\x03\x02\x02\x02ki\x03\x02\x02\x02kl\x03\x02\x02\x02l\x19\x03\x02\x02" +
-		"\x02mk\x03\x02\x02\x02no\x05\x06\x04\x02o\x1B\x03\x02\x02\x02\n\x1F&-" +
-		"4:BSk";
+		"\x0E\t\x0E\x04\x0F\t\x0F\x04\x10\t\x10\x04\x11\t\x11\x03\x02\x06\x02$" +
+		"\n\x02\r\x02\x0E\x02%\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03" +
+		"\x03\x03\x03\x03\x05\x030\n\x03\x03\x04\x03\x04\x03\x04\x03\x04\x03\x04" +
+		"\x05\x047\n\x04\x03\x04\x03\x04\x03\x04\x03\x04\x03\x04\x03\x04\x07\x04" +
+		"?\n\x04\f\x04\x0E\x04B\v\x04\x03\x05\x03\x05\x03\x05\x05\x05G\n\x05\x03" +
+		"\x05\x03\x05\x03\x06\x03\x06\x07\x06M\n\x06\f\x06\x0E\x06P\v\x06\x03\x06" +
+		"\x03\x06\x03\x07\x03\x07\x03\x07\x03\x07\x03\x07\x03\x07\x03\x07\x03\b" +
+		"\x03\b\x03\b\x03\b\x03\t\x03\t\x03\t\x03\t\x03\n\x03\n\x03\n\x03\n\x03" +
+		"\n\x03\n\x03\v\x03\v\x03\v\x07\vl\n\v\f\v\x0E\vo\v\v\x03\f\x03\f\x03\f" +
+		"\x03\f\x03\r\x03\r\x03\r\x03\r\x03\r\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x03" +
+		"\x0F\x03\x0F\x03\x0F\x03\x10\x03\x10\x03\x10\x07\x10\x84\n\x10\f\x10\x0E" +
+		"\x10\x87\v\x10\x03\x11\x03\x11\x03\x11\x02\x02\x03\x06\x12\x02\x02\x04" +
+		"\x02\x06\x02\b\x02\n\x02\f\x02\x0E\x02\x10\x02\x12\x02\x14\x02\x16\x02" +
+		"\x18\x02\x1A\x02\x1C\x02\x1E\x02 \x02\x02\x04\x03\x02\x03\x04\x03\x02" +
+		"\x05\x06\x02\x8B\x02#\x03\x02\x02\x02\x04/\x03\x02\x02\x02\x066\x03\x02" +
+		"\x02\x02\bC\x03\x02\x02\x02\nJ\x03\x02\x02\x02\fS\x03\x02\x02\x02\x0E" +
+		"Z\x03\x02\x02\x02\x10^\x03\x02\x02\x02\x12b\x03\x02\x02\x02\x14h\x03\x02" +
+		"\x02\x02\x16p\x03\x02\x02\x02\x18t\x03\x02\x02\x02\x1Ay\x03\x02\x02\x02" +
+		"\x1C}\x03\x02\x02\x02\x1E\x80\x03\x02\x02\x02 \x88\x03\x02\x02\x02\"$" +
+		"\x05\x04\x03\x02#\"\x03\x02\x02\x02$%\x03\x02\x02\x02%#\x03\x02\x02\x02" +
+		"%&\x03\x02\x02\x02&\x03\x03\x02\x02\x02\'0\x05\x1C\x0F\x02(0\x05\x0E\b" +
+		"\x02)0\x05\x10\t\x02*0\x05\x12\n\x02+0\x05\x18\r\x02,0\x05\x1A\x0E\x02" +
+		"-0\x05\f\x07\x02.0\x05\x06\x04\x02/\'\x03\x02\x02\x02/(\x03\x02\x02\x02" +
+		"/)\x03\x02\x02\x02/*\x03\x02\x02\x02/+\x03\x02\x02\x02/,\x03\x02\x02\x02" +
+		"/-\x03\x02\x02\x02/.\x03\x02\x02\x020\x05\x03\x02\x02\x0212\b\x04\x01" +
+		"\x0227\x07\x15\x02\x0237\x05\b\x05\x0247\x07\x14\x02\x0257\x07\x13\x02" +
+		"\x0261\x03\x02\x02\x0263\x03\x02\x02\x0264\x03\x02\x02\x0265\x03\x02\x02" +
+		"\x027@\x03\x02\x02\x0289\f\x07\x02\x029:\t\x02\x02\x02:?\x05\x06\x04\b" +
+		";<\f\x03\x02\x02<=\t\x03\x02\x02=?\x05\x06\x04\x04>8\x03\x02\x02\x02>" +
+		";\x03\x02\x02\x02?B\x03\x02\x02\x02@>\x03\x02\x02\x02@A\x03\x02\x02\x02" +
+		"A\x07\x03\x02\x02\x02B@\x03\x02\x02\x02CD\x07\x14\x02\x02DF\x07\x07\x02" +
+		"\x02EG\x05\x1E\x10\x02FE\x03\x02\x02\x02FG\x03\x02\x02\x02GH\x03\x02\x02" +
+		"\x02HI\x07\b\x02\x02I\t\x03\x02\x02\x02JN\x07\t\x02\x02KM\x05\x04\x03" +
+		"\x02LK\x03\x02\x02\x02MP\x03\x02\x02\x02NL\x03\x02\x02\x02NO\x03\x02\x02" +
+		"\x02OQ\x03\x02\x02\x02PN\x03\x02\x02\x02QR\x07\n\x02\x02R\v\x03\x02\x02" +
+		"\x02ST\x07\x14\x02\x02TU\x07\x07\x02\x02UV\x05\x14\v\x02VW\x07\b\x02\x02" +
+		"WX\x07\x14\x02\x02XY\x05\n\x06\x02Y\r\x03\x02\x02\x02Z[\x07\v\x02\x02" +
+		"[\\\x05\x06\x04\x02\\]\x05\n\x06\x02]\x0F\x03\x02\x02\x02^_\x07\f\x02" +
+		"\x02_`\x05\x06\x04\x02`a\x05\n\x06\x02a\x11\x03\x02\x02\x02bc\x07\r\x02" +
+		"\x02cd\x05\x06\x04\x02de\x07\x0E\x02\x02ef\x05\x06\x04\x02fg\x05\n\x06" +
+		"\x02g\x13\x03\x02\x02\x02hm\x05\x16\f\x02ij\x07\x0F\x02\x02jl\x05\x16" +
+		"\f\x02ki\x03\x02\x02\x02lo\x03\x02\x02\x02mk\x03\x02\x02\x02mn\x03\x02" +
+		"\x02\x02n\x15\x03\x02\x02\x02om\x03\x02\x02\x02pq\x07\x14\x02\x02qr\x07" +
+		"\x10\x02\x02rs\x07\x14\x02\x02s\x17\x03\x02\x02\x02tu\x07\x14\x02\x02" +
+		"uv\x07\x14\x02\x02vw\x07\x11\x02\x02wx\x05\x06\x04\x02x\x19\x03\x02\x02" +
+		"\x02yz\x07\x14\x02\x02z{\x07\x11\x02\x02{|\x05\x06\x04\x02|\x1B\x03\x02" +
+		"\x02\x02}~\x07\x12\x02\x02~\x7F\x05\x06\x04\x02\x7F\x1D\x03\x02\x02\x02" +
+		"\x80\x85\x05 \x11\x02\x81\x82\x07\x0F\x02\x02\x82\x84\x05 \x11\x02\x83" +
+		"\x81\x03\x02\x02\x02\x84\x87\x03\x02\x02\x02\x85\x83\x03\x02\x02\x02\x85" +
+		"\x86\x03\x02\x02\x02\x86\x1F\x03\x02\x02\x02\x87\x85\x03\x02\x02\x02\x88" +
+		"\x89\x05\x06\x04\x02\x89!\x03\x02\x02\x02\v%/6>@FNm\x85";
 	public static __ATN: ATN;
 	public static get _ATN(): ATN {
 		if (!fusionParser.__ATN) {
@@ -763,6 +931,15 @@ export class ProgramContext extends ParserRuleContext {
 export class StatementContext extends ParserRuleContext {
 	public returnStatement(): ReturnStatementContext | undefined {
 		return this.tryGetRuleContext(0, ReturnStatementContext);
+	}
+	public ifStatement(): IfStatementContext | undefined {
+		return this.tryGetRuleContext(0, IfStatementContext);
+	}
+	public whileLoop(): WhileLoopContext | undefined {
+		return this.tryGetRuleContext(0, WhileLoopContext);
+	}
+	public forLoop(): ForLoopContext | undefined {
+		return this.tryGetRuleContext(0, ForLoopContext);
 	}
 	public varDecl(): VarDeclContext | undefined {
 		return this.tryGetRuleContext(0, VarDeclContext);
@@ -911,6 +1088,33 @@ export class StrLitContext extends ExpressionContext {
 		}
 	}
 }
+export class NumCompContext extends ExpressionContext {
+	public expression(): ExpressionContext[];
+	public expression(i: number): ExpressionContext;
+	public expression(i?: number): ExpressionContext | ExpressionContext[] {
+		if (i === undefined) {
+			return this.getRuleContexts(ExpressionContext);
+		} else {
+			return this.getRuleContext(i, ExpressionContext);
+		}
+	}
+	constructor(ctx: ExpressionContext) {
+		super(ctx.parent, ctx.invokingState);
+		this.copyFrom(ctx);
+	}
+	// @Override
+	public enterRule(listener: fusionListener): void {
+		if (listener.enterNumComp) {
+			listener.enterNumComp(this);
+		}
+	}
+	// @Override
+	public exitRule(listener: fusionListener): void {
+		if (listener.exitNumComp) {
+			listener.exitNumComp(this);
+		}
+	}
+}
 
 
 export class FunctionCallContext extends ParserRuleContext {
@@ -999,6 +1203,93 @@ export class FuncDefContext extends ParserRuleContext {
 	public exitRule(listener: fusionListener): void {
 		if (listener.exitFuncDef) {
 			listener.exitFuncDef(this);
+		}
+	}
+}
+
+
+export class IfStatementContext extends ParserRuleContext {
+	public expression(): ExpressionContext {
+		return this.getRuleContext(0, ExpressionContext);
+	}
+	public block(): BlockContext {
+		return this.getRuleContext(0, BlockContext);
+	}
+	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+		super(parent, invokingState);
+	}
+	// @Override
+	public get ruleIndex(): number { return fusionParser.RULE_ifStatement; }
+	// @Override
+	public enterRule(listener: fusionListener): void {
+		if (listener.enterIfStatement) {
+			listener.enterIfStatement(this);
+		}
+	}
+	// @Override
+	public exitRule(listener: fusionListener): void {
+		if (listener.exitIfStatement) {
+			listener.exitIfStatement(this);
+		}
+	}
+}
+
+
+export class WhileLoopContext extends ParserRuleContext {
+	public expression(): ExpressionContext {
+		return this.getRuleContext(0, ExpressionContext);
+	}
+	public block(): BlockContext {
+		return this.getRuleContext(0, BlockContext);
+	}
+	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+		super(parent, invokingState);
+	}
+	// @Override
+	public get ruleIndex(): number { return fusionParser.RULE_whileLoop; }
+	// @Override
+	public enterRule(listener: fusionListener): void {
+		if (listener.enterWhileLoop) {
+			listener.enterWhileLoop(this);
+		}
+	}
+	// @Override
+	public exitRule(listener: fusionListener): void {
+		if (listener.exitWhileLoop) {
+			listener.exitWhileLoop(this);
+		}
+	}
+}
+
+
+export class ForLoopContext extends ParserRuleContext {
+	public expression(): ExpressionContext[];
+	public expression(i: number): ExpressionContext;
+	public expression(i?: number): ExpressionContext | ExpressionContext[] {
+		if (i === undefined) {
+			return this.getRuleContexts(ExpressionContext);
+		} else {
+			return this.getRuleContext(i, ExpressionContext);
+		}
+	}
+	public block(): BlockContext {
+		return this.getRuleContext(0, BlockContext);
+	}
+	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+		super(parent, invokingState);
+	}
+	// @Override
+	public get ruleIndex(): number { return fusionParser.RULE_forLoop; }
+	// @Override
+	public enterRule(listener: fusionListener): void {
+		if (listener.enterForLoop) {
+			listener.enterForLoop(this);
+		}
+	}
+	// @Override
+	public exitRule(listener: fusionListener): void {
+		if (listener.exitForLoop) {
+			listener.exitForLoop(this);
 		}
 	}
 }

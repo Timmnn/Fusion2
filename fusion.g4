@@ -6,6 +6,9 @@ program
 
 statement
   : returnStatement 
+  | ifStatement
+  | whileLoop
+  | forLoop
   | varDecl
   | assign
   | funcDef
@@ -18,7 +21,10 @@ expression
   | functionCall                      #FuncCall  // Renamed label to avoid conflict
   | ID                                # Id
   | STR_LIT                           #StrLit
+  | expression ('>' | '<') expression #NumComp  
   ;
+
+
 
 functionCall
   : ID '(' argList? ')'
@@ -33,8 +39,20 @@ funcDef
   : ID '(' funcDefArgList ')' ID block;
 
 
+ifStatement
+  : 'if' expression block;
+
+
+whileLoop
+  : 'while' expression block;
+
+forLoop
+  : 'for' expression 'to' expression block ;
+
 funcDefArgList 
   : funcDefArg (',' funcDefArg)* ;
+
+
 
 funcDefArg
   : ID ':' ID ;

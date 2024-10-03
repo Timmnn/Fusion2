@@ -8,12 +8,16 @@ import { AddSubContext } from "./fusionParser";
 import { FuncCallContext } from "./fusionParser";
 import { IdContext } from "./fusionParser";
 import { StrLitContext } from "./fusionParser";
+import { NumCompContext } from "./fusionParser";
 import { ProgramContext } from "./fusionParser";
 import { StatementContext } from "./fusionParser";
 import { ExpressionContext } from "./fusionParser";
 import { FunctionCallContext } from "./fusionParser";
 import { BlockContext } from "./fusionParser";
 import { FuncDefContext } from "./fusionParser";
+import { IfStatementContext } from "./fusionParser";
+import { WhileLoopContext } from "./fusionParser";
+import { ForLoopContext } from "./fusionParser";
 import { FuncDefArgListContext } from "./fusionParser";
 import { FuncDefArgContext } from "./fusionParser";
 import { VarDeclContext } from "./fusionParser";
@@ -94,6 +98,19 @@ export interface fusionListener extends ParseTreeListener {
 	exitStrLit?: (ctx: StrLitContext) => void;
 
 	/**
+	 * Enter a parse tree produced by the `NumComp`
+	 * labeled alternative in `fusionParser.expression`.
+	 * @param ctx the parse tree
+	 */
+	enterNumComp?: (ctx: NumCompContext) => void;
+	/**
+	 * Exit a parse tree produced by the `NumComp`
+	 * labeled alternative in `fusionParser.expression`.
+	 * @param ctx the parse tree
+	 */
+	exitNumComp?: (ctx: NumCompContext) => void;
+
+	/**
 	 * Enter a parse tree produced by `fusionParser.program`.
 	 * @param ctx the parse tree
 	 */
@@ -158,6 +175,39 @@ export interface fusionListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitFuncDef?: (ctx: FuncDefContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `fusionParser.ifStatement`.
+	 * @param ctx the parse tree
+	 */
+	enterIfStatement?: (ctx: IfStatementContext) => void;
+	/**
+	 * Exit a parse tree produced by `fusionParser.ifStatement`.
+	 * @param ctx the parse tree
+	 */
+	exitIfStatement?: (ctx: IfStatementContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `fusionParser.whileLoop`.
+	 * @param ctx the parse tree
+	 */
+	enterWhileLoop?: (ctx: WhileLoopContext) => void;
+	/**
+	 * Exit a parse tree produced by `fusionParser.whileLoop`.
+	 * @param ctx the parse tree
+	 */
+	exitWhileLoop?: (ctx: WhileLoopContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `fusionParser.forLoop`.
+	 * @param ctx the parse tree
+	 */
+	enterForLoop?: (ctx: ForLoopContext) => void;
+	/**
+	 * Exit a parse tree produced by `fusionParser.forLoop`.
+	 * @param ctx the parse tree
+	 */
+	exitForLoop?: (ctx: ForLoopContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `fusionParser.funcDefArgList`.

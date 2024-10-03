@@ -11,6 +11,8 @@ import {
   ArgListContext,
   StrLitContext,
   FuncDefContext,
+  IfStatementContext,
+  NumCompContext,
   FuncDefArgContext,
   FuncDefArgListContext,
   BlockContext,
@@ -19,6 +21,7 @@ import {
   FunctionCallContext,
   VarDeclContext,
   AssignContext,
+  WhileLoopContext,
 } from "./generated/fusionParser";
 import * as fs from "fs";
 import { execSync } from "child_process";
@@ -161,12 +164,49 @@ function walkStatement(ctx: StatementContext) {
             return walkVarDecl(child);
           case child instanceof AssignContext:
             return walkAssign(child);
+          case child instanceof IfStatementContext:
+            return walkIfStatement(child);
+          case child instanceof WhileLoopContext:
+            return walkWhileLoop(child);
+
           default:
             throw `Invalid Statement: ${child.constructor.name}`;
         }
       })
-      .join("") + ";"
+      .join("") + ";\n"
   );
+}
+
+function walkWhileLoop(ctx: WhileLoopContext): string {
+  if (!ctx.children || ctx.children.length !== 3) {
+    throw new InvalidChildCountError({
+      expected: 3,
+      got: ctx.children?.length,
+    });
+  }
+
+  const value = ctx.children[1] as ExpressionContext;
+  const block = ctx.children[2] as BlockContext;
+
+  return `
+  /*WhileLoop*/
+  while(${walkExpression(value)})${walkBlock(block)}
+  /*_WhileLoop*/
+  `;
+}
+
+function walkIfStatement(ctx: IfStatementContext): string {
+  if (!ctx.children || ctx.children.length !== 3) {
+    throw new InvalidChildCountError({
+      expected: 3,
+      got: ctx.children?.length,
+    });
+  }
+
+  const value = ctx.children[1] as ExpressionContext;
+  const block = ctx.children[2] as BlockContext;
+
+  return `if(${walkExpression(value)})${walkBlock(block)}`;
 }
 
 function walkVarDecl(ctx: VarDeclContext) {
@@ -237,7 +277,9 @@ function walkFuncDef(ctx: FuncDefContext) {
   console.log(func_name, return_type, block.text);
 
   global_functions.push(`
+    /*FuncDef*/
     ${return_type} ${func_name} ${walkFuncDefArgList(arg_list)} ${walkBlock(block)}
+    /*_FuncDef*/
   `);
 }
 
@@ -271,27 +313,53 @@ function walkBlock(ctx: BlockContext) {
   ctx.children?.shift();
   ctx.children?.pop();
   return `{
-    ${ctx.children.map((child) => walkStatement(child as StatementContext))}
+    ${ctx.children.map((child) => walkStatement(child as StatementContext)).join("\n")}
   }`;
 }
 
 function walkExpression(ctx: ExpressionContext): string {
+  let code;
   switch (true) {
     case ctx instanceof IntContext:
-      return walkInt(ctx);
+      code = walkInt(ctx);
+      break;
     case ctx.children?.at(0) instanceof ExpressionContext &&
       ctx.children?.at(1)?.text === "+" &&
       ctx.children?.at(2) instanceof ExpressionContext:
-      return walkAddSub(ctx as AddSubContext);
+      code = walkAddSub(ctx as AddSubContext);
+      break;
     case ctx instanceof StrLitContext:
-      return walkStrLit(ctx);
+      code = walkStrLit(ctx);
+      break;
     case ctx instanceof FuncCallContext:
-      return walkFuncCall(ctx);
+      code = walkFuncCall(ctx);
+      break;
     case ctx instanceof IdContext:
-      return walkId(ctx);
+      code = walkId(ctx);
+      break;
+    case ctx instanceof NumCompContext:
+      code = walkNumComp(ctx);
+      break;
     default:
       throw "Invalid Expression: " + ctx.constructor.name;
   }
+
+  return code;
+}
+
+function walkNumComp(ctx: NumCompContext) {
+  if (!ctx.children || ctx.children.length !== 3) {
+    throw new InvalidChildCountError({
+      expected: 3,
+      got: ctx.children?.length,
+    });
+  }
+
+  const first = ctx.children[0] as ExpressionContext;
+  const operator = ctx.children[1].text;
+  const second = ctx.children[2] as ExpressionContext;
+
+  return `${walkExpression(first)} ${operator} ${walkExpression(second)}`;
 }
 
 function walkId(ctx: IdContext) {
@@ -318,7 +386,6 @@ function walkFuncCall(ctx: FuncCallContext) {
   }
   //@ts-ignore
   ctx = ctx.children[0] as FunctionCallContext;
-  debugChilds(ctx);
   if (!ctx.children || ctx.children.length !== 4) {
     throw (
       "FuncCall has to have exactly 4 childs. Found: " + ctx.children?.length
@@ -334,7 +401,11 @@ function walkFuncCall(ctx: FuncCallContext) {
     throw "Funcname has to be a text";
   }
 
-  return `${func_name}(${walkArgList(args_list)})`;
+  return `
+  /*FuncCall*/
+  ${func_name}(${walkArgList(args_list)})
+  /*_FuncCall*/
+  `;
 }
 
 function walkArgList(ctx: ArgListContext): string {

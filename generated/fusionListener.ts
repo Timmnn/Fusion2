@@ -14,10 +14,10 @@ import { StatementContext } from "./fusionParser";
 import { ExpressionContext } from "./fusionParser";
 import { FunctionCallContext } from "./fusionParser";
 import { BlockContext } from "./fusionParser";
+import { ImportStatContext } from "./fusionParser";
 import { FuncDefContext } from "./fusionParser";
 import { IfStatementContext } from "./fusionParser";
 import { WhileLoopContext } from "./fusionParser";
-import { ForLoopContext } from "./fusionParser";
 import { FuncDefArgListContext } from "./fusionParser";
 import { FuncDefArgContext } from "./fusionParser";
 import { VarDeclContext } from "./fusionParser";
@@ -166,6 +166,17 @@ export interface fusionListener extends ParseTreeListener {
 	exitBlock?: (ctx: BlockContext) => void;
 
 	/**
+	 * Enter a parse tree produced by `fusionParser.importStat`.
+	 * @param ctx the parse tree
+	 */
+	enterImportStat?: (ctx: ImportStatContext) => void;
+	/**
+	 * Exit a parse tree produced by `fusionParser.importStat`.
+	 * @param ctx the parse tree
+	 */
+	exitImportStat?: (ctx: ImportStatContext) => void;
+
+	/**
 	 * Enter a parse tree produced by `fusionParser.funcDef`.
 	 * @param ctx the parse tree
 	 */
@@ -197,17 +208,6 @@ export interface fusionListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitWhileLoop?: (ctx: WhileLoopContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `fusionParser.forLoop`.
-	 * @param ctx the parse tree
-	 */
-	enterForLoop?: (ctx: ForLoopContext) => void;
-	/**
-	 * Exit a parse tree produced by `fusionParser.forLoop`.
-	 * @param ctx the parse tree
-	 */
-	exitForLoop?: (ctx: ForLoopContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `fusionParser.funcDefArgList`.

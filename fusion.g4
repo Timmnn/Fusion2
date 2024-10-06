@@ -4,11 +4,16 @@ program
   : statement+ 
   ;
 
+
+
+
+
+
 statement
-  : returnStatement 
+  : returnStatement
+  | importStat
   | ifStatement
   | whileLoop
-  | forLoop
   | varDecl
   | assign
   | funcDef
@@ -35,6 +40,10 @@ block
 
 
 
+importStat:
+  'import' STR_LIT;
+
+
 funcDef
   : ID '(' funcDefArgList ')' ID block;
 
@@ -46,8 +55,6 @@ ifStatement
 whileLoop
   : 'while' expression block;
 
-forLoop
-  : 'for' expression 'to' expression block ;
 
 funcDefArgList 
   : funcDefArg (',' funcDefArg)* ;
@@ -85,8 +92,9 @@ STR_LIT
   ;
 
 ID
-  : [a-zA-Z]+
+  :  [a-zA-Z_] [a-zA-Z_0-9]*
   ;
+
 
 INT
   : [0-9]+

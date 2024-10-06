@@ -22,13 +22,16 @@ import {
   VarDeclContext,
   AssignContext,
   WhileLoopContext,
+  ImportStatContext,
 } from "./generated/fusionParser";
 import * as fs from "fs";
 import { execSync } from "child_process";
 import { TerminalNode } from "antlr4ts/tree/TerminalNode";
 import { ParseTree } from "antlr4ts/tree/ParseTree";
+import { debug } from "console";
 
 const global_functions = [] as string[];
+const imports = [] as string[];
 
 function parseTreeToJson(tree: ParseTree): any {
   // If the node is a terminal node (leaf), return its text
@@ -126,7 +129,6 @@ function createTempCFile(code: string) {
 }
 
 function walkProgram(ctx: ProgramContext) {
-  const includes = "#include <stdio.h>";
   const main_func = `
   int main() {
     ${(ctx.children || [])
@@ -143,7 +145,7 @@ function walkProgram(ctx: ProgramContext) {
   }`;
 
   return `
-  ${includes}
+  ${imports}
   ${global_functions.join("\n")}
   ${main_func}
   `;
@@ -153,6 +155,7 @@ function walkStatement(ctx: StatementContext) {
   return (
     (ctx.children || [])
       .map((child) => {
+        console.log("C", child.text);
         switch (true) {
           case child instanceof ExpressionContext:
             return walkExpression(child);
@@ -168,13 +171,31 @@ function walkStatement(ctx: StatementContext) {
             return walkIfStatement(child);
           case child instanceof WhileLoopContext:
             return walkWhileLoop(child);
-
+          case child instanceof ImportStatContext:
+            return walkImportStat(child);
           default:
-            throw `Invalid Statement: ${child.constructor.name}`;
+            console.trace("Invalid Statement");
+            throw `Invalid Statement: ${child.constructor.name} ${child.text}`;
         }
       })
       .join("") + ";\n"
   );
+}
+
+function walkImportStat(ctx: ImportStatContext) {
+  if (!ctx.children || ctx.children.length !== 2) {
+    throw new InvalidChildCountError({
+      expected: 2,
+      got: ctx.children?.length,
+    });
+  }
+  const import_target = ctx.children[1].text.replaceAll('"', "");
+
+  if (import_target.startsWith("_C/")) {
+    imports.push(`#include <${import_target.replace("_C/", "")}>`);
+  }
+
+  return ``;
 }
 
 function walkWhileLoop(ctx: WhileLoopContext): string {

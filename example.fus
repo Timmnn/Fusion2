@@ -1,6 +1,2 @@
-int x = 100
+import "_C/stdio.h"
 
-
-for x=0 to 1000 {
-  
-}

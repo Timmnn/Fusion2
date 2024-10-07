@@ -3,7 +3,7 @@
 
 import { ParseTreeListener } from "antlr4ts/tree/ParseTreeListener";
 
-import { IntContext } from "./fusionParser";
+import { NumContext } from "./fusionParser";
 import { AddSubContext } from "./fusionParser";
 import { FuncCallContext } from "./fusionParser";
 import { IdContext } from "./fusionParser";
@@ -33,17 +33,17 @@ import { ArgContext } from "./fusionParser";
  */
 export interface fusionListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by the `Int`
+	 * Enter a parse tree produced by the `Num`
 	 * labeled alternative in `fusionParser.expression`.
 	 * @param ctx the parse tree
 	 */
-	enterInt?: (ctx: IntContext) => void;
+	enterNum?: (ctx: NumContext) => void;
 	/**
-	 * Exit a parse tree produced by the `Int`
+	 * Exit a parse tree produced by the `Num`
 	 * labeled alternative in `fusionParser.expression`.
 	 * @param ctx the parse tree
 	 */
-	exitInt?: (ctx: IntContext) => void;
+	exitNum?: (ctx: NumContext) => void;
 
 	/**
 	 * Enter a parse tree produced by the `AddSub`

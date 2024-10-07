@@ -23,6 +23,7 @@ import {
   AssignContext,
   WhileLoopContext,
   ImportStatContext,
+  NumContext,
 } from "./generated/fusionParser";
 import * as fs from "fs";
 import { execSync } from "child_process";
@@ -242,7 +243,14 @@ function walkVarDecl(ctx: VarDeclContext) {
   const id = ctx.children[1] as IdContext;
   const value = ctx.children[3] as ExpressionContext;
 
-  return `${walkId(type)} ${walkId(id)} = ${walkExpression(value)}`;
+  // Equal to C
+  if (["int", "float"].includes(type.text)) {
+    return `${walkId(type)} ${walkId(id)} = ${walkExpression(value)}`;
+  }
+
+  if (type.text === "bool") {
+    return `_Bool ${walkId(id)} = ${walkExpression(value)}`;
+  }
 }
 
 function walkAssign(ctx: AssignContext) {
@@ -341,8 +349,8 @@ function walkBlock(ctx: BlockContext) {
 function walkExpression(ctx: ExpressionContext): string {
   let code;
   switch (true) {
-    case ctx instanceof IntContext:
-      code = walkInt(ctx);
+    case ctx instanceof NumContext:
+      code = walkNumber(ctx);
       break;
     case ctx.children?.at(0) instanceof ExpressionContext &&
       ctx.children?.at(1)?.text === "+" &&
@@ -440,7 +448,7 @@ function walkAddSub(ctx: AddSubContext) {
   return `${walkExpression(first_expr)} + ${walkExpression(second_expr)}`;
 }
 
-function walkInt(ctx: IntContext) {
+function walkNumber(ctx: NumContext) {
   return ctx.text;
 }
 

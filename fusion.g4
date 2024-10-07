@@ -21,7 +21,7 @@ statement
   ;
 
 expression
-  : INT                               #Int
+  : NUMBER                               #Num
   | expression ('+' | '-') expression  #AddSub
   | functionCall                      #FuncCall  // Renamed label to avoid conflict
   | ID                                # Id
@@ -89,6 +89,7 @@ RETURN
 
 STR_LIT
   : '"' (~["\\] | '\\' .)* '"'
+  | '\'' (~["\\] | '\\' .)* '\''
   ;
 
 ID
@@ -96,8 +97,8 @@ ID
   ;
 
 
-INT
-  : [0-9]+
+NUMBER
+  : [0-9]+ ('.' [0-9]+)?
   ;
 
 NEWLINE

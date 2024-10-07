@@ -43,7 +43,7 @@ export class fusionParser extends Parser {
 	public static readonly RETURN = 15;
 	public static readonly STR_LIT = 16;
 	public static readonly ID = 17;
-	public static readonly INT = 18;
+	public static readonly NUMBER = 18;
 	public static readonly NEWLINE = 19;
 	public static readonly WS = 20;
 	public static readonly RULE_program = 0;
@@ -76,7 +76,7 @@ export class fusionParser extends Parser {
 	private static readonly _SYMBOLIC_NAMES: Array<string | undefined> = [
 		undefined, undefined, undefined, undefined, undefined, undefined, undefined, 
 		undefined, undefined, undefined, undefined, undefined, undefined, undefined, 
-		undefined, "RETURN", "STR_LIT", "ID", "INT", "NEWLINE", "WS",
+		undefined, "RETURN", "STR_LIT", "ID", "NUMBER", "NEWLINE", "WS",
 	];
 	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(fusionParser._LITERAL_NAMES, fusionParser._SYMBOLIC_NAMES, []);
 
@@ -125,7 +125,7 @@ export class fusionParser extends Parser {
 				this.state = 35;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << fusionParser.T__8) | (1 << fusionParser.T__9) | (1 << fusionParser.T__10) | (1 << fusionParser.RETURN) | (1 << fusionParser.STR_LIT) | (1 << fusionParser.ID) | (1 << fusionParser.INT))) !== 0));
+			} while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << fusionParser.T__8) | (1 << fusionParser.T__9) | (1 << fusionParser.T__10) | (1 << fusionParser.RETURN) | (1 << fusionParser.STR_LIT) | (1 << fusionParser.ID) | (1 << fusionParser.NUMBER))) !== 0));
 			}
 		}
 		catch (re) {
@@ -254,12 +254,12 @@ export class fusionParser extends Parser {
 			switch ( this.interpreter.adaptivePredict(this._input, 2, this._ctx) ) {
 			case 1:
 				{
-				_localctx = new IntContext(_localctx);
+				_localctx = new NumContext(_localctx);
 				this._ctx = _localctx;
 				_prevctx = _localctx;
 
 				this.state = 48;
-				this.match(fusionParser.INT);
+				this.match(fusionParser.NUMBER);
 				}
 				break;
 
@@ -394,7 +394,7 @@ export class fusionParser extends Parser {
 			this.state = 68;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << fusionParser.STR_LIT) | (1 << fusionParser.ID) | (1 << fusionParser.INT))) !== 0)) {
+			if ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << fusionParser.STR_LIT) | (1 << fusionParser.ID) | (1 << fusionParser.NUMBER))) !== 0)) {
 				{
 				this.state = 67;
 				this.argList();
@@ -432,7 +432,7 @@ export class fusionParser extends Parser {
 			this.state = 76;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << fusionParser.T__8) | (1 << fusionParser.T__9) | (1 << fusionParser.T__10) | (1 << fusionParser.RETURN) | (1 << fusionParser.STR_LIT) | (1 << fusionParser.ID) | (1 << fusionParser.INT))) !== 0)) {
+			while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << fusionParser.T__8) | (1 << fusionParser.T__9) | (1 << fusionParser.T__10) | (1 << fusionParser.RETURN) | (1 << fusionParser.STR_LIT) | (1 << fusionParser.ID) | (1 << fusionParser.NUMBER))) !== 0)) {
 				{
 				{
 				this.state = 73;
@@ -975,22 +975,22 @@ export class ExpressionContext extends ParserRuleContext {
 		super.copyFrom(ctx);
 	}
 }
-export class IntContext extends ExpressionContext {
-	public INT(): TerminalNode { return this.getToken(fusionParser.INT, 0); }
+export class NumContext extends ExpressionContext {
+	public NUMBER(): TerminalNode { return this.getToken(fusionParser.NUMBER, 0); }
 	constructor(ctx: ExpressionContext) {
 		super(ctx.parent, ctx.invokingState);
 		this.copyFrom(ctx);
 	}
 	// @Override
 	public enterRule(listener: fusionListener): void {
-		if (listener.enterInt) {
-			listener.enterInt(this);
+		if (listener.enterNum) {
+			listener.enterNum(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: fusionListener): void {
-		if (listener.exitInt) {
-			listener.exitInt(this);
+		if (listener.exitNum) {
+			listener.exitNum(this);
 		}
 	}
 }
